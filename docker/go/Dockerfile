@@ -36,9 +36,6 @@ FROM alpine:3.13
 # 必要なパッケージをインストール
 RUN apk add --no-cache ca-certificates
 
-# 開発ステージからreflexバイナリをコピー
-COPY --from=development /go/bin/ /usr/local/bin/
-
 # ビルダーステージからバイナリをコピー
 COPY --from=builder /app/main .
 
