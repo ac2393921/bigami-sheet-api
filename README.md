@@ -1,1 +1,5 @@
-# bigami-sheet-api
+# BigamiシートAPI
+
+```bash
+make up
+```
