@@ -1,0 +1,13 @@
+pkgname="db"
+output="internal/infrastructure/mysql/models"
+wipe=true
+add-global-variants=false
+no-tests=true
+
+[mysql]
+  dbname="bigami"
+  host="db"
+  port=3306
+  user="bigami"
+  pass="bigami"  
+  sslmode="false"
