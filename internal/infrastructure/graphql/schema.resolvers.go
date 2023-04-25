@@ -6,25 +6,14 @@ package graph
 
 import (
 	"context"
-	"crypto/rand"
 	"fmt"
-	"math/big"
 
-	"github.com/ac2393921/bigami-sheet-api/graph/model"
+	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
 )
 
 // CreateTodo is the resolver for the createTodo field.
 func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
-	//ランダムな数字の生成
-	rand, _ := rand.Int(rand.Reader, big.NewInt(100))
-	todo := &model.Todo{
-		Text: input.Text,
-		ID:   fmt.Sprintf("T%d", rand),
-		User: &model.User{ID: input.UserID, Name: "user " + input.UserID},
-	}
-	//ここでのrはresolver.goで宣言したResolver型を示しているそのため、t.todosはresolver.goで先ほど記述したもの
-	r.todos = append(r.todos, todo)
-	return todo, nil
+	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
 }
 
 // Todos is the resolver for the todos field.

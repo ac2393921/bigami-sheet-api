@@ -7,7 +7,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/ac2393921/bigami-sheet-api/graph"
+	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql"
 )
 
 const defaultPort = "8080"
