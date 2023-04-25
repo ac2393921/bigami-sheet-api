@@ -1,4 +1,4 @@
-package graph
+package graphql
 
 // This file will be automatically regenerated based on the schema, any resolver implementations
 // will be copied through when generating and any unknown code will be moved to the end.
@@ -11,12 +11,58 @@ import (
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
 )
 
+// CreateTodo is the resolver for the createTodo field.
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*model.Todo, error) {
+	panic(fmt.Errorf("not implemented: CreateTodo - createTodo"))
+}
+
+// Todos is the resolver for the todos field.
+func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+	return []*model.Todo{
+		{
+			ID:   "TODO-1",
+			Text: "My Todo 1",
+			User: &model.User{
+				ID:   "User-1",
+				Name: "hsaki",
+			},
+			Done: true,
+		},
+		{
+			ID:   "TODO-2",
+			Text: "My Todo 2",
+			User: &model.User{
+				ID:   "User-1",
+				Name: "hsaki",
+			},
+			Done: false,
+		},
+	}, nil
+}
+
 // Schools is the resolver for the schools field.
 func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
-	panic(fmt.Errorf("not implemented: Schools - schools"))
+	return []*model.School{
+		{
+			ID:    "SCHOOL-1",
+			Name:  "斜歯忍軍",
+			Style: "他の流派の「奥義の内容」を集める。",
+			Enemy: "鞍馬神流",
+		},
+		{
+			ID:    "SCHOOL-2",
+			Name:  "鞍馬神流",
+			Style: "シノビガミの復活を阻止する。",
+			Enemy: "隠忍の血統",
+		},
+	}, nil
 }
+
+// Mutation returns MutationResolver implementation.
+func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
+type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
