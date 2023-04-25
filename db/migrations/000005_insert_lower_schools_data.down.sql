@@ -1,0 +1,1 @@
+DELETE FROM lower_schools WHERE name = '鍔鑿組';
