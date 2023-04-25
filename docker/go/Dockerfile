@@ -1,15 +1,10 @@
 ####################### Local stage #######################
 FROM golang:1.19.1-alpine AS development
 
-# 環境変数の設定
-ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
-
 # gccのインストール
 RUN apk add --no-cache gcc musl-dev git
 
 # 作業ディレクトリの作成と設定
-RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 WORKDIR /app
 
 # 依存関係のインストール
@@ -18,7 +13,8 @@ COPY go.sum ./
 RUN go mod download
 
 # airのインストール
-RUN go install github.com/cosmtrek/air@latest
+RUN go install github.com/cosmtrek/air@latest && \
+  go install github.com/99designs/gqlgen@latest
 
 COPY . .
 
@@ -28,7 +24,7 @@ CMD ["air"]
 FROM development AS builder
 
 # アプリケーションをビルド
-RUN go build -trimpath -ldflags "-w -s" -o main /app/server.go
+RUN go build -trimpath -ldflags "-w -s" -o main /app/cmd/server.go
 
 ####################### Runtime stage #######################
 FROM alpine:3.13
