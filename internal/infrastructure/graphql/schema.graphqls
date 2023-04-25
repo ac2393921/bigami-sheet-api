@@ -9,6 +9,15 @@ type School {
   enemy: String!
 }
 
+type LowerSchool {
+  id: ID!
+  school_id: ID!
+  name: String!
+  style: String!
+  enemy: String!
+}
+
 type Query {
   schools: [School!]!
+  lower_schools: [LowerSchool!]!
 }

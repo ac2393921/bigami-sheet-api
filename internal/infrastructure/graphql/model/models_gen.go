@@ -2,6 +2,14 @@
 
 package model
 
+type LowerSchool struct {
+	ID       string `json:"id"`
+	SchoolID string `json:"school_id"`
+	Name     string `json:"name"`
+	Style    string `json:"style"`
+	Enemy    string `json:"enemy"`
+}
+
 type School struct {
 	ID    string `json:"id"`
 	Name  string `json:"name"`

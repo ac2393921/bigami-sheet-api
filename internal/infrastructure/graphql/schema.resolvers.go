@@ -28,6 +28,19 @@ func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
 	}, nil
 }
 
+// LowerSchools is the resolver for the lower_schools field.
+func (r *queryResolver) LowerSchools(ctx context.Context) ([]*model.LowerSchool, error) {
+	return []*model.LowerSchool{
+		{
+			ID:       "LOWERSCHOOL-1",
+			SchoolID: "SCHOOL-1",
+			Name:     "鍔鑿組",
+			Style:    "感情に動かされず、任務をまっとうする。",
+			Enemy:    "鞍馬神流",
+		},
+	}, nil
+}
+
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
