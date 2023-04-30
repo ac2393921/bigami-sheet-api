@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
-	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -24,10 +23,10 @@ import (
 
 // School is an object representing the database table.
 type School struct {
-	ID    int         `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Name  null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	Style null.String `boil:"style" json:"style,omitempty" toml:"style" yaml:"style,omitempty"`
-	Enemy null.String `boil:"enemy" json:"enemy,omitempty" toml:"enemy" yaml:"enemy,omitempty"`
+	ID    int    `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Name  string `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Style string `boil:"style" json:"style" toml:"style" yaml:"style"`
+	Enemy string `boil:"enemy" json:"enemy" toml:"enemy" yaml:"enemy"`
 
 	R *schoolR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L schoolL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -61,14 +60,14 @@ var SchoolTableColumns = struct {
 
 var SchoolWhere = struct {
 	ID    whereHelperint
-	Name  whereHelpernull_String
-	Style whereHelpernull_String
-	Enemy whereHelpernull_String
+	Name  whereHelperstring
+	Style whereHelperstring
+	Enemy whereHelperstring
 }{
 	ID:    whereHelperint{field: "`schools`.`id`"},
-	Name:  whereHelpernull_String{field: "`schools`.`name`"},
-	Style: whereHelpernull_String{field: "`schools`.`style`"},
-	Enemy: whereHelpernull_String{field: "`schools`.`enemy`"},
+	Name:  whereHelperstring{field: "`schools`.`name`"},
+	Style: whereHelperstring{field: "`schools`.`style`"},
+	Enemy: whereHelperstring{field: "`schools`.`enemy`"},
 }
 
 // SchoolRels is where relationship names are stored.

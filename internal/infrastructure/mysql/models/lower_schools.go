@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
-	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -24,11 +23,11 @@ import (
 
 // LowerSchool is an object representing the database table.
 type LowerSchool struct {
-	ID       int         `boil:"id" json:"id" toml:"id" yaml:"id"`
-	SchoolID int         `boil:"school_id" json:"school_id" toml:"school_id" yaml:"school_id"`
-	Name     null.String `boil:"name" json:"name,omitempty" toml:"name" yaml:"name,omitempty"`
-	Style    null.String `boil:"style" json:"style,omitempty" toml:"style" yaml:"style,omitempty"`
-	Enemy    null.String `boil:"enemy" json:"enemy,omitempty" toml:"enemy" yaml:"enemy,omitempty"`
+	ID       int    `boil:"id" json:"id" toml:"id" yaml:"id"`
+	SchoolID int    `boil:"school_id" json:"school_id" toml:"school_id" yaml:"school_id"`
+	Name     string `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Style    string `boil:"style" json:"style" toml:"style" yaml:"style"`
+	Enemy    string `boil:"enemy" json:"enemy" toml:"enemy" yaml:"enemy"`
 
 	R *lowerSchoolR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L lowerSchoolL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -87,34 +86,22 @@ func (w whereHelperint) NIN(slice []int) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-type whereHelpernull_String struct{ field string }
+type whereHelperstring struct{ field string }
 
-func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, false, x)
-}
-func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
-	return qmhelper.WhereNullEQ(w.field, true, x)
-}
-func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LT, x)
-}
-func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.LTE, x)
-}
-func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GT, x)
-}
-func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
-	return qmhelper.Where(w.field, qmhelper.GTE, x)
-}
-func (w whereHelpernull_String) IN(slice []string) qm.QueryMod {
+func (w whereHelperstring) EQ(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.EQ, x) }
+func (w whereHelperstring) NEQ(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.NEQ, x) }
+func (w whereHelperstring) LT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.LT, x) }
+func (w whereHelperstring) LTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.LTE, x) }
+func (w whereHelperstring) GT(x string) qm.QueryMod  { return qmhelper.Where(w.field, qmhelper.GT, x) }
+func (w whereHelperstring) GTE(x string) qm.QueryMod { return qmhelper.Where(w.field, qmhelper.GTE, x) }
+func (w whereHelperstring) IN(slice []string) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
 	}
 	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
 }
-func (w whereHelpernull_String) NIN(slice []string) qm.QueryMod {
+func (w whereHelperstring) NIN(slice []string) qm.QueryMod {
 	values := make([]interface{}, 0, len(slice))
 	for _, value := range slice {
 		values = append(values, value)
@@ -122,21 +109,18 @@ func (w whereHelpernull_String) NIN(slice []string) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
-func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
-func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
-
 var LowerSchoolWhere = struct {
 	ID       whereHelperint
 	SchoolID whereHelperint
-	Name     whereHelpernull_String
-	Style    whereHelpernull_String
-	Enemy    whereHelpernull_String
+	Name     whereHelperstring
+	Style    whereHelperstring
+	Enemy    whereHelperstring
 }{
 	ID:       whereHelperint{field: "`lower_schools`.`id`"},
 	SchoolID: whereHelperint{field: "`lower_schools`.`school_id`"},
-	Name:     whereHelpernull_String{field: "`lower_schools`.`name`"},
-	Style:    whereHelpernull_String{field: "`lower_schools`.`style`"},
-	Enemy:    whereHelpernull_String{field: "`lower_schools`.`enemy`"},
+	Name:     whereHelperstring{field: "`lower_schools`.`name`"},
+	Style:    whereHelperstring{field: "`lower_schools`.`style`"},
+	Enemy:    whereHelperstring{field: "`lower_schools`.`enemy`"},
 }
 
 // LowerSchoolRels is where relationship names are stored.
