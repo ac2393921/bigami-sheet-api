@@ -1,4 +1,4 @@
-.PHONY: up upd help
+.PHONY: up upd help gen
 .DEFAULT_GOAL := help
 
 up: ## Do docker compose up with live reload
@@ -9,6 +9,9 @@ upd: ## Do docker compose up demon with live reload
 
 down: ## Do docker compose down
 	docker compose down
+
+gen:
+	gqlgen generate
 
 help: ## Show options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
