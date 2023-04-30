@@ -6,26 +6,24 @@ package graphql
 
 import (
 	"context"
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
+	repository "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/repositories"
 )
 
 // Schools is the resolver for the schools field.
 func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
-	return []*model.School{
-		{
-			ID:    "SCHOOL-1",
-			Name:  "斜歯忍軍",
-			Style: "他の流派の「奥義の内容」を集める。",
-			Enemy: "鞍馬神流",
-		},
-		{
-			ID:    "SCHOOL-2",
-			Name:  "鞍馬神流",
-			Style: "シノビガミの復活を阻止する。",
-			Enemy: "隠忍の血統",
-		},
-	}, nil
+	db, _ := sql.Open("mysql", "bigami:bigami@tcp(db)/bigami")
+	rp := repository.New(db)
+	schools, err := rp.FetchAll(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+	return schools, nil
 }
 
 // LowerSchools is the resolver for the lower_schools field.
