@@ -6,18 +6,18 @@ package graphql
 
 import (
 	"context"
-	"database/sql"
 
 	_ "github.com/go-sql-driver/mysql"
 
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
-	repository "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/repositories"
+	infra "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql"
+	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/repository"
 )
 
 // Schools is the resolver for the schools field.
 func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
-	db, _ := sql.Open("mysql", "bigami:bigami@tcp(db)/bigami")
-	rp := repository.New(db)
+	sqlHandler := infra.NewSqlHandler()
+	rp := repository.New(sqlHandler.Conn)
 	schools, err := rp.FetchAll(ctx)
 
 	if err != nil {
