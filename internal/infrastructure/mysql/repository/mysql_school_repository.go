@@ -16,7 +16,7 @@ type MySQLSchoolRepository struct {
 	exec boil.ContextExecutor
 }
 
-func New(exec boil.ContextExecutor) *MySQLSchoolRepository {
+func NewSchoolRepository(exec boil.ContextExecutor) *MySQLSchoolRepository {
 	return &MySQLSchoolRepository{exec: exec}
 }
 
