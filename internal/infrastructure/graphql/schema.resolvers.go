@@ -12,6 +12,7 @@ import (
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
 	infra "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql"
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/repository"
+	"github.com/ac2393921/bigami-sheet-api/internal/usecase"
 )
 
 // Schools is the resolver for the schools field.
@@ -19,8 +20,10 @@ func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
 	// Todo: UseCaseに書く & Resolverで呼び出す
 	// DBからEntityを取得
 	sqlHandler := infra.NewSqlHandler()
-	rep := repository.New(sqlHandler.Conn)
-	result, err := rep.FetchAll(ctx)
+	rep := repository.NewSchoolRepository(sqlHandler.Conn)
+	u := usecase.NewFetchAllSchoolsUsecase(rep)
+
+	result, err := u.Handle(ctx)
 	if err != nil {
 		return nil, err
 	}
