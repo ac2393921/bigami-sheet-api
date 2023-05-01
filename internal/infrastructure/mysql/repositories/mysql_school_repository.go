@@ -26,10 +26,10 @@ func (m *MySQLSchoolRepository) FetchAll(ctx context.Context) ([]*model.School, 
 	if err != nil {
 		return nil, err
 	}
-	return convertSchool(schools), nil
+	return convertSchools(schools), nil
 }
 
-func convertSchool(schools db.SchoolSlice) []*model.School {
+func convertSchools(schools db.SchoolSlice) []*model.School {
 	var result []*model.School
 	for _, s := range schools {
 		result = append(result, &model.School{
