@@ -4,11 +4,11 @@ import (
 	"context"
 	"log"
 
+	"github.com/ac2393921/bigami-sheet-api/internal/domain/entity"
 	db "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/models"
 
 	"strconv"
 
-	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
@@ -20,7 +20,7 @@ func New(exec boil.ContextExecutor) *MySQLSchoolRepository {
 	return &MySQLSchoolRepository{exec: exec}
 }
 
-func (m *MySQLSchoolRepository) FetchAll(ctx context.Context) ([]*model.School, error) {
+func (m *MySQLSchoolRepository) FetchAll(ctx context.Context) ([]*entity.School, error) {
 	schools, err := db.Schools().All(ctx, m.exec)
 	log.Printf("schools: %v", schools)
 	if err != nil {
@@ -29,10 +29,11 @@ func (m *MySQLSchoolRepository) FetchAll(ctx context.Context) ([]*model.School, 
 	return convertSchools(schools), nil
 }
 
-func convertSchools(schools db.SchoolSlice) []*model.School {
-	var result []*model.School
+// SQLboilerをEntityに変換する
+func convertSchools(schools db.SchoolSlice) []*entity.School {
+	var result []*entity.School
 	for _, s := range schools {
-		result = append(result, &model.School{
+		result = append(result, &entity.School{
 			ID:    strconv.Itoa(s.ID),
 			Name:  s.Name,
 			Style: s.Style,

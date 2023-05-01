@@ -16,13 +16,26 @@ import (
 
 // Schools is the resolver for the schools field.
 func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
+	// Todo: UseCaseに書く & Resolverで呼び出す
+	// DBからEntityを取得
 	sqlHandler := infra.NewSqlHandler()
-	rp := repository.New(sqlHandler.Conn)
-	schools, err := rp.FetchAll(ctx)
-
+	rep := repository.New(sqlHandler.Conn)
+	result, err := rep.FetchAll(ctx)
 	if err != nil {
 		return nil, err
 	}
+
+	// EntityをGraphQLのモデルに変換
+	var schools []*model.School
+	for _, r := range result {
+		schools = append(schools, &model.School{
+			ID:    r.ID,
+			Name:  r.Name,
+			Style: r.Style,
+			Enemy: r.Enemy,
+		})
+	}
+
 	return schools, nil
 }
 
