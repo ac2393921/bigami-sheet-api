@@ -9,6 +9,7 @@ import (
 
 	_ "github.com/go-sql-driver/mysql"
 
+	"github.com/ac2393921/bigami-sheet-api/internal/contoller"
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/graphql/model"
 	infra "github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql"
 	"github.com/ac2393921/bigami-sheet-api/internal/infrastructure/mysql/repository"
@@ -19,10 +20,13 @@ import (
 func (r *queryResolver) Schools(ctx context.Context) ([]*model.School, error) {
 	// Todo: UseCaseに書く & Resolverで呼び出す
 	// DBからEntityを取得
+
+	
 	sqlHandler := infra.NewSqlHandler()
 	rep := repository.NewSchoolRepository(sqlHandler.Conn)
 	u := usecase.NewFetchAllSchoolsUsecase(rep)
-
+	c := contoller.NewSchoolController(u)
+	
 	result, err := u.Handle(ctx)
 	if err != nil {
 		return nil, err

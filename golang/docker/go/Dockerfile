@@ -14,7 +14,10 @@ RUN go mod download
 
 # airのインストール
 RUN go install github.com/cosmtrek/air@latest && \
-  go install github.com/99designs/gqlgen@latest
+  go install github.com/99designs/gqlgen@latest && \
+  go install github.com/volatiletech/sqlboiler/v4@latest && \
+  go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-mysql@latest && \
+  go install -tags mysql github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 
 COPY . .
 

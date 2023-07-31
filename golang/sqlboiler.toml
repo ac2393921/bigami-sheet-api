@@ -1,8 +1,8 @@
 pkgname="db"
 output="internal/infrastructure/mysql/models"
-wipe=true
-add-global-variants=false
-no-tests=true
+# wipe=true
+# add-global-variants=false
+# no-tests=true
 
 [mysql]
   dbname="bigami"
